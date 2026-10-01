@@ -20,13 +20,23 @@ If the file does not exist you are asked whether to create it.
 
 The editor is taken from `$VISUAL`, then `$EDITOR`, falling back to `vi`.
 
-## Windows
+## Windows (PowerShell)
 
-```bat
-update.bat [-b branch] [-m message] <repository> <file>
+```powershell
+.\update.ps1 [-Branch branch] [-Message message] <repository> <file>
 ```
 
-The editor is taken from `%EDITOR%`, falling back to `notepad`.
+`-b` and `-m` are accepted as short aliases. The editor is taken from
+`$env:VISUAL`, then `$env:EDITOR`, falling back to `notepad`. A full help
+page is available with `Get-Help .\update.ps1 -Full`.
+
+Works with Windows PowerShell 5.1 and PowerShell 7 (`pwsh`, which also runs
+it on Linux and macOS). If the execution policy prevents running scripts,
+use:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\update.ps1 <repository> <file>
+```
 
 ## Arguments
 
