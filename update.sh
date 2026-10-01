@@ -71,6 +71,7 @@ cd "$tmpdir" || fail "cannot change to $tmpdir"
 newfile=0
 if [ ! -e "$file" ]; then
     printf "File '%s' does not exist in the repository. Create it? [y/N] " "$file"
+    answer=""
     read -r answer
     case "$answer" in
         [Yy]*) { mkdir -p "$(dirname -- "$file")" && : > "$file"; } || fail "cannot create $file"

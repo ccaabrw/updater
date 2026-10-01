@@ -105,11 +105,8 @@ if not exist "%WINFILE%" (
     if errorlevel 1 goto fail
 )
 
-if defined EDITOR (
-    call %EDITOR% "%WINFILE%"
-) else (
-    start "" /wait notepad "%WINFILE%"
-)
+if not defined EDITOR set "EDITOR=notepad"
+call %EDITOR% "%WINFILE%"
 if errorlevel 1 (
     set "ERR=editor exited with an error"
     goto fail
@@ -132,7 +129,12 @@ if not defined MESSAGE (
 )
 if not defined MESSAGE set "MESSAGE=Update %FILE%"
 
-git commit -m "%MESSAGE%"
+rem Pass the message via a file so that quotes and special characters are safe.
+set "MSGFILE=%TMPDIR%\.git\UPDATER_COMMIT_MSG"
+setlocal EnableDelayedExpansion
+> "%MSGFILE%" echo(!MESSAGE!
+endlocal
+git commit -F "%MSGFILE%"
 if errorlevel 1 (
     set "ERR=git commit failed"
     goto fail
